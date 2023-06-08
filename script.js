@@ -47,7 +47,7 @@ class Calculator { // Guarda la informacion de los numeros y operadores que se p
             case "-":
                 computation = prev - current;
                 break;
-            case "*":
+            case "x":
                 computation = prev * current;
                 break;
             case "÷":
@@ -62,8 +62,24 @@ class Calculator { // Guarda la informacion de los numeros y operadores que se p
     };
 
     // getDisplayNumber() agrega las comas a los numeros. Ej: 1,000 - 10,000 - 1,000,000 - etc...
+    // Tambien se encargara de dar la posibilidad de ingresar decimales menores al entero 1. Ej: 0.25
     getDisplayNumber(number) {
-        return number;
+        const stringNumber = number.toString(); // Cambio los numeros a string para poder hacerle un split y separar los decimales
+        const integerDigits = parseFloat(stringNumber.split(".")[0]); // Vuelvo a convertir el string a numero pero antes hago el split al numero en el indice [0] para agarrar el numero antes del "."
+        const decimalDigits = stringNumber.split(".")[1]; // Hago lo mismo con los decimales, es decir todo lo que esta despues del ".", pero sin convertirlo a numero todavia
+        let integerDisplay;
+        if (isNaN(integerDigits)) {
+            integerDisplay = "";
+        }   else {
+            integerDisplay = integerDigits.toLocaleString("en", { // toLocaleString("en") hace que los numeros grandes se vean con el formato mas conocido donde el mil, el millon, etc tienen una "," cada 3 numeros. Ej: 1,000,000
+                maximumFractionDigits: 0
+            });
+        };
+        if (decimalDigits != null) { // Si tengo decimales
+            return `${integerDisplay}.${decimalDigits}`; // devuelvo "numero entero . numero decimal"
+        }   else {
+            return integerDisplay; // sino devuelvo solo el numero entero
+        };
     };
 
     // updateDisplay() actualiza el display segun los resultados de compute()
@@ -72,6 +88,8 @@ class Calculator { // Guarda la informacion de los numeros y operadores que se p
         if (this.operation != null) {
             this.previousOperandTextElement.innerText =
                 `${this.getDisplayNumber(this.previousOperand)} ${this.operation}` // Esto mueve el valor de currentOperand a previousOperand y lo concatena con el simbolo de la operacion
+        }   else {
+            this.previousOperandTextElement.innerText = "";
         };
     };
 };
