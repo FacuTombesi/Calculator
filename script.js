@@ -13,7 +13,9 @@ class Calculator { // Guarda la informacion de los numeros y operadores que se p
         this.operation = undefined;
     };
 
-    delete() {};
+    delete() {
+        this.currentOperand = this.currentOperand.toString().slice(0, -1); // Convierto el currentOperand a string y despues le realizo un slice para quitarle el ultimo numero introducido
+    };
 
     // appendNumber() define lo que ocurre cada vez que se hace click en un numero
     appendNumber(number) {
@@ -53,16 +55,24 @@ class Calculator { // Guarda la informacion de los numeros y operadores que se p
                 break;
             default:
                 return;
-        }
+        };
         this.currentOperand = computation;
         this.operation = undefined;
         this.previousOperand = "";
     };
 
+    // getDisplayNumber() agrega las comas a los numeros. Ej: 1,000 - 10,000 - 1,000,000 - etc...
+    getDisplayNumber(number) {
+        return number;
+    };
+
     // updateDisplay() actualiza el display segun los resultados de compute()
     updateDisplay() {
-        this.currentOperandTextElement.innerText = this.currentOperand;
-        this.previousOperandTextElement.innerText = this.previousOperand; // Esto mueve el valor de currentOperand a previousOperand
+        this.currentOperandTextElement.innerText = this.getDisplayNumber(this.currentOperand); // Al agregar la funcion getDisplayNumber hago que los numeros de currentOperand como los de previousOperand mas abajo tengan coma cuando sean numeros grandes
+        if (this.operation != null) {
+            this.previousOperandTextElement.innerText =
+                `${this.getDisplayNumber(this.previousOperand)} ${this.operation}` // Esto mueve el valor de currentOperand a previousOperand y lo concatena con el simbolo de la operacion
+        };
     };
 };
 
@@ -102,5 +112,10 @@ equalsButton.addEventListener("click", button => {
 
 allClearButton.addEventListener("click", button => {
     calculator.clear();
+    calculator.updateDisplay();
+});
+
+deleteButton.addEventListener("click", button => {
+    calculator.delete();
     calculator.updateDisplay();
 });
