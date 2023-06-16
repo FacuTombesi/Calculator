@@ -132,9 +132,22 @@ footer {
     font-size: 0.65rem;
 }
 
-.link_logo {
+.github_logo {
     height: 1.5rem;
     margin: 2px 5px;
+}
+
+.github_logo:hover {
+    content: url("./img/iconGITHUB\(pink\).png");
+}
+
+.linkedin_logo {
+    height: 1.5rem;
+    margin: 2px 5px;
+}
+
+.linkedin_logo:hover {
+    content: url("./img/iconLINKEDIN\(pink\).png");
 }
 
 .portfolio_logo {
