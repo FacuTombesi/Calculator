@@ -53,6 +53,9 @@ class Calculator { // Guarda la informacion de los numeros y operadores que se p
             case "÷":
                 computation = prev / current;
                 break;
+            case "%":
+                computation = (prev * current) / 100;
+                break;
             default:
                 return;
         };
